@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home | SmartQuiz</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(120deg, #f6d365, #fda085);
+      color: #222;
+      text-align: center;
+    }
+
+    /* Welcome Section */
+    .welcome h1 {
+      font-size: 50px;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      margin-top: 50px;
+    }
+    .welcome p {
+      font-size: 20px;
+      color: #fff;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+
+    /* Subject Cards */
+    .subject-card {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s, background 0.3s;
+      text-decoration: none;
+      color: #333;
+      width: 230px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .subject-card:hover {
+      transform: scale(1.05);
+      background: #ffeb3b;
+      color: #000;
+    }
+
+    .subject-card h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .subject-card p {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navbar (Same as Welcome Page) -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+    <div class="container">
+      <a class="navbar-brand" href="/">SmartQuiz 👋</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/home/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/">Welcome</a>
+          </li>
+          <li class="nav-item">
+        <a class="nav-link active" href="/profile/">Profile</a>
+         </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout/">Logout </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 🧑‍🎓 Welcome Section -->
+  <div class="welcome container text-center">
+    <h1>Welcome, {{ request.user.username }}!</h1>
+    <p>Select a quiz category below and test your knowledge!</p>
+  </div>
+
+  <!-- 🧠 Subjects Section (Centered and Equal Size) -->
+  <div class="container my-5">
+    <div class="d-flex flex-wrap justify-content-center gap-4">
+      <a href="/science/" class="subject-card">
+        <h3>🔬 Science</h3>
+        <p>Test your scientific knowledge!</p>
+      </a>
+
+      <a href="/maths/" class="subject-card">
+        <h3>➗ Maths</h3>
+        <p>Sharpen your mind with numbers!</p>
+      </a>
+
+      <a href="/history/" class="subject-card">
+        <h3>🏺 History</h3>
+        <p>Travel back in time!</p>
+      </a>
+
+      <a href="/sports/" class="subject-card">
+        <h3>⚽ Sports</h3>
+        <p>Are you a sports champ?</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

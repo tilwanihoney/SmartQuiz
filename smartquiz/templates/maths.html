@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Maths Quiz</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { 
+      background: linear-gradient(135deg, #a1ffce, #faffd1); 
+      font-family: 'Poppins', sans-serif; 
+      padding: 30px 0; 
+    }
+    h2 { 
+      text-align: center; 
+      color: #222; 
+      margin-bottom: 30px;
+    }
+
+    /* Quiz Card */
+    .quiz-card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 650px;
+      margin: 0 auto 30px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .quiz-card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 10px 25px;
+      font-size: 16px;
+    }
+
+    /* Back to Home Button */
+    .home-btn {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .home-btn:hover { color: #222; }
+  </style>
+</head>
+<body>
+
+  <h2>🧮 Maths Quiz</h2>
+
+  <div class="quiz-card">
+    <form id="quizForm">
+      <div class="mb-3">
+        <p>1️⃣ What is 5 + 3?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q1" value="8" id="q1a1">
+          <label class="form-check-label" for="q1a1">8</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q1" value="7" id="q1a2">
+          <label class="form-check-label" for="q1a2">7</label>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p>2️⃣ What is the square root of 16?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q2" value="4" id="q2a1">
+          <label class="form-check-label" for="q2a1">4</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q2" value="6" id="q2a2">
+          <label class="form-check-label" for="q2a2">6</label>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p>3️⃣ What is 10 ÷ 2?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q3" value="5" id="q3a1">
+          <label class="form-check-label" for="q3a1">5</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q3" value="4" id="q3a2">
+          <label class="form-check-label" for="q3a2">4</label>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p>4️⃣ What is 12 × 2?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q4" value="24" id="q4a1">
+          <label class="form-check-label" for="q4a1">24</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q4" value="22" id="q4a2">
+          <label class="form-check-label" for="q4a2">22</label>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p>5️⃣ What is 9 - 4?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q5" value="5" id="q5a1">
+          <label class="form-check-label" for="q5a1">5</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q5" value="6" id="q5a2">
+          <label class="form-check-label" for="q5a2">6</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success submit-btn">Submit Answers</button>
+    </form>
+  </div>
+
+  <!-- Back to Home Button -->
+  <a href="home.html" class="home-btn btn btn-primary">🏠 Back to Home</a>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.getElementById('quizForm').onsubmit = e => {
+      e.preventDefault();
+      let score = 0;
+      if(e.target.q1.value=="8") score++;
+      if(e.target.q2.value=="4") score++;
+      if(e.target.q3.value=="5") score++;
+      if(e.target.q4.value=="24") score++;
+      if(e.target.q5.value=="5") score++;
+      location.href = "/result/?score=" + score + "&subject=maths";
+    };
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Science Quiz</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { 
+      background: linear-gradient(135deg, #89f7fe, #66a6ff); 
+      font-family: 'Poppins', sans-serif; 
+      padding: 30px 0; 
+    }
+    h2 { 
+      text-align: center; 
+      color: #222; 
+      margin-bottom: 30px;
+    }
+
+    /* Quiz Card */
+    .quiz-card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 650px;
+      margin: 0 auto 30px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .quiz-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 10px 25px;
+      font-size: 16px;
+    }
+
+    /* Back to Home Button */
+    .home-btn {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .home-btn:hover { color: #222; }
+  </style>
+</head>
+<body>
+
+  <h2>🔬 Science Quiz</h2>
+
+  <div class="quiz-card">
+    <form id="quizForm">
+      <div class="mb-3">
+        <p>1️⃣ What planet is known as the Red Planet?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q1" value="Mars" id="q1a1">
+          <label class="form-check-label" for="q1a1">Mars</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q1" value="Jupiter" id="q1a2">
+          <label class="form-check-label" for="q1a2">Jupiter</label>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p>2️⃣ What gas do plants release during photosynthesis?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q2" value="Oxygen" id="q2a1">
+          <label class="form-check-label" for="q2a1">Oxygen</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q2" value="Carbon Dioxide" id="q2a2">
+          <label class="form-check-label" for="q2a2">Carbon Dioxide</label>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p>3️⃣ What is the chemical formula for water?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q3" value="H2O" id="q3a1">
+          <label class="form-check-label" for="q3a1">H₂O</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q3" value="CO2" id="q3a2">
+          <label class="form-check-label" for="q3a2">CO₂</label>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p>4️⃣ Which organ pumps blood in the human body?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q4" value="Heart" id="q4a1">
+          <label class="form-check-label" for="q4a1">Heart</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q4" value="Brain" id="q4a2">
+          <label class="form-check-label" for="q4a2">Brain</label>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p>5️⃣ What force keeps us on the ground?</p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q5" value="Gravity" id="q5a1">
+          <label class="form-check-label" for="q5a1">Gravity</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q5" value="Magnetism" id="q5a2">
+          <label class="form-check-label" for="q5a2">Magnetism</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary submit-btn">Submit Answers</button>
+    </form>
+  </div>
+
+  <!-- Back to Home Button -->
+  <a href="home.html" class="home-btn btn btn-success">🏠 Back to Home</a>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.getElementById('quizForm').onsubmit = e => {
+      e.preventDefault();
+      let score = 0;
+      if(e.target.q1.value=="Mars") score++;
+      if(e.target.q2.value=="Oxygen") score++;
+      if(e.target.q3.value=="H2O") score++;
+      if(e.target.q4.value=="Heart") score++;
+      if(e.target.q5.value=="Gravity") score++;
+      location.href = "/result/?score=" + score + "&subject=science";
+    };
+  </script>
+
+</body>
+</html>
