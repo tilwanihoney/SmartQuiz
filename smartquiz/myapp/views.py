@@ -46,8 +46,6 @@ def logout_view(request):
     logout(request)
     return redirect('/login/')
 
-
-
 # Subject views
 def science(request):
     return render(request, 'science.html')

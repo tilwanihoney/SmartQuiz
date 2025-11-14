@@ -62,7 +62,7 @@
 </head>
 <body>
 
-  <!-- ✅ Navbar (Same as Welcome Page) -->
+  <!--  Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
     <div class="container">
       <a class="navbar-brand" href="/">SmartQuiz 👋</a>
@@ -90,13 +90,13 @@
     </div>
   </nav>
 
-  <!-- 🧑‍🎓 Welcome Section -->
+  <!--  Welcome Section -->
   <div class="welcome container text-center">
     <h1>Welcome, {{ request.user.username }}!</h1>
     <p>Select a quiz category below and test your knowledge!</p>
   </div>
 
-  <!-- 🧠 Subjects Section (Centered and Equal Size) -->
+  <!--  Subjects Section (Centered and Equal Size) -->
   <div class="container my-5">
     <div class="d-flex flex-wrap justify-content-center gap-4">
       <a href="/science/" class="subject-card">
