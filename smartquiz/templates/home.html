@@ -1,127 +1,305 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Home | SmartQuiz</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background: linear-gradient(120deg, #f6d365, #fda085);
-      color: #222;
-      text-align: center;
-    }
+{% extends "base.html" %}
 
-    /* Welcome Section */
-    .welcome h1 {
-      font-size: 50px;
-      color: #fff;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-      margin-top: 50px;
-    }
-    .welcome p {
-      font-size: 20px;
-      color: #fff;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-    }
+{% block title %}Home | SmartQuiz{% endblock %}
 
-    /* Subject Cards */
-    .subject-card {
-      background: white;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: transform 0.3s, background 0.3s;
-      text-decoration: none;
-      color: #333;
-      width: 230px;
-      height: 180px;
-      display: flex;
+{% block extra_css %}
+  body {
+    background: linear-gradient(120deg, #89f7fe, #66a6ff);
+  }
+
+  /* Whole page fade-in */
+  .page-wrapper {
+    opacity: 0;
+    animation: pageFade 0.8s ease-out forwards;
+  }
+  @keyframes pageFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .home-page {
+    width: 100%;
+    max-width: 1050px;
+  }
+
+  .home-card {
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
+    padding: 26px 26px 24px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out forwards;
+    animation-delay: 0.15s;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .home-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 700px) {
+    .home-header-row {
       flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .home-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1f2933;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .home-sub {
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 6px;
+  }
+
+  .pill {
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    color: #374151;
+  }
+
+  .home-section-label {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 12px 0 10px;
+  }
+
+  .subject-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 20px;
+  }
+
+  .subject-row {
+    display: flex;
+    gap: 20px;
+  }
+
+  .subject-row.row-1 {
+    justify-content: space-between;   /* first 3 cards */
+  }
+
+  .subject-row.row-2 {
+    justify-content: center;          /* last 2 cards centered */
+    gap: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .subject-row {
+      flex-wrap: wrap;
       justify-content: center;
-      align-items: center;
     }
-
-    .subject-card:hover {
-      transform: scale(1.05);
-      background: #ffeb3b;
-      color: #000;
+    .subject-row.row-2 {
+      gap: 20px;
     }
+  }
 
-    .subject-card h3 {
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
+  .subject-form {
+    margin: 0;
+  }
 
-    .subject-card p {
-      font-size: 14px;
-      color: #555;
-    }
-  </style>
-</head>
-<body>
+  /* subject cards animation */
+  @keyframes cardPop {
+    from { opacity: 0; transform: translateY(15px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
 
-  <!--  Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
-    <div class="container">
-      <a class="navbar-brand" href="/">SmartQuiz 👋</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+  .subject-tile {
+    width: 250px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    background: #f9fafb;
+    padding: 20px 18px 18px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: transform 0.18s, box-shadow 0.2s, border-color 0.18s, background 0.18s;
+    opacity: 0;
+    animation: cardPop 0.6s ease-out forwards;
+  }
 
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" href="/home/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/">Welcome</a>
-          </li>
-          <li class="nav-item">
-        <a class="nav-link active" href="/profile/">Profile</a>
-         </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout/">Logout </a>
-          </li>
-        </ul>
+  .subject-row.row-1 .subject-tile:nth-child(1) { animation-delay: 0.25s; }
+  .subject-row.row-1 .subject-tile:nth-child(2) { animation-delay: 0.35s; }
+  .subject-row.row-1 .subject-tile:nth-child(3) { animation-delay: 0.45s; }
+  .subject-row.row-2 .subject-tile:nth-child(1) { animation-delay: 0.55s; }
+  .subject-row.row-2 .subject-tile:nth-child(2) { animation-delay: 0.65s; }
+
+  .subject-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(15,23,42,0.18);
+    border-color: #3b82f6;
+    background: #ffffff;
+  }
+
+  .subject-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .subject-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .subject-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+  }
+
+  .subject-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .subject-note {
+    font-size: 12px;
+    color: #6b7280;
+    padding-left: 46px;
+  }
+
+  .home-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+{% endblock %}
+
+{% block content %}
+  <div class="home-page">
+    <div class="home-card">
+      <div class="home-header-row">
+        <div>
+          <div class="home-title">
+            Choose your subject 🎯
+          </div>
+          <div class="home-sub">
+            Tap a subject below to start its quiz. Questions are loaded from the database.
+          </div>
+        </div>
+
+        <div>
+          {% if request.user.is_authenticated %}
+            <span class="pill">Player: {{ request.user.username }}</span>
+          {% else %}
+            <span class="pill">Playing as Guest</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="home-section-label">Pick a subject to begin:</div>
+
+      <div class="subject-rows">
+        <!-- Row 1: first 3 subjects -->
+        <div class="subject-row row-1">
+          {% for s in subjects|slice:":3" %}
+            <form method="POST" action="{% url 'start_quiz' %}" class="subject-form">
+              {% csrf_token %}
+              <input type="hidden" name="subject" value="{{ s.id }}">
+              <button type="submit" class="subject-tile">
+                <div class="subject-top-row">
+                  <div class="subject-left">
+                    <div class="subject-icon">
+                      {% if s.name|lower == "science" %}
+                        🔬
+                      {% elif s.name|lower == "maths" or s.name|lower == "math" %}
+                        ➗
+                      {% elif s.name|lower == "history" %}
+                        🏺
+                      {% elif s.name|lower == "python" %}
+                        🐍
+                      {% elif s.name|lower == "data science" %}
+                        📊
+                      {% else %}
+                        📘
+                      {% endif %}
+                    </div>
+                    <div class="subject-name">{{ s.name }}</div>
+                  </div>
+                </div>
+                <div class="subject-note">
+                  Start a quick {{ s.name }} quiz.
+                </div>
+              </button>
+            </form>
+          {% endfor %}
+        </div>
+
+        <!-- Row 2: remaining subjects -->
+        <div class="subject-row row-2">
+          {% for s in subjects|slice:"3:" %}
+            <form method="POST" action="{% url 'start_quiz' %}" class="subject-form">
+              {% csrf_token %}
+              <input type="hidden" name="subject" value="{{ s.id }}">
+              <button type="submit" class="subject-tile">
+                <div class="subject-top-row">
+                  <div class="subject-left">
+                    <div class="subject-icon">
+                      {% if s.name|lower == "science" %}
+                        🔬
+                      {% elif s.name|lower == "maths" or s.name|lower == "math" %}
+                        ➗
+                      {% elif s.name|lower == "history" %}
+                        🏺
+                      {% elif s.name|lower == "python" %}
+                        🐍
+                      {% elif s.name|lower == "data science" %}
+                        📊
+                      {% else %}
+                        📘
+                      {% endif %}
+                    </div>
+                    <div class="subject-name">{{ s.name }}</div>
+                  </div>
+                </div>
+                <div class="subject-note">
+                  Start a quick {{ s.name }} quiz.
+                </div>
+              </button>
+            </form>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="home-footer-links">
+        <a href="{% url 'leaderboard' %}" class="btn-secondary">🏆 View Leaderboard</a>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'profile' %}" class="btn-secondary">📜 My Results</a>
+        {% endif %}
       </div>
     </div>
-  </nav>
-
-  <!--  Welcome Section -->
-  <div class="welcome container text-center">
-    <h1>Welcome, {{ request.user.username }}!</h1>
-    <p>Select a quiz category below and test your knowledge!</p>
   </div>
-
-  <!--  Subjects Section (Centered and Equal Size) -->
-  <div class="container my-5">
-    <div class="d-flex flex-wrap justify-content-center gap-4">
-      <a href="/science/" class="subject-card">
-        <h3>🔬 Science</h3>
-        <p>Test your scientific knowledge!</p>
-      </a>
-
-      <a href="/maths/" class="subject-card">
-        <h3>➗ Maths</h3>
-        <p>Sharpen your mind with numbers!</p>
-      </a>
-
-      <a href="/history/" class="subject-card">
-        <h3>🏺 History</h3>
-        <p>Travel back in time!</p>
-      </a>
-
-      <a href="/sports/" class="subject-card">
-        <h3>⚽ Sports</h3>
-        <p>Are you a sports champ?</p>
-      </a>
-    </div>
-  </div>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

@@ -1,91 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Login</title>
+{% extends "base.html" %}
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f6d365, #fda085);
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+{% block title %}Login | SmartQuiz{% endblock %}
 
-    .login-box {
-      background: white;
-      padding: 35px;
-      width: 320px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-      text-align: center;
-    }
+{% block extra_css %}
+  .auth-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 18px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .auth-card h1 {
+    font-size: 22px;
+    color: #222;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 12px;
+  }
+  .messages {
+    font-size: 13px;
+    color: #d9534f;
+    margin-bottom: 10px;
+  }
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  .btn-primary {
+    width: 100%;
+    background: #3056d3;
+    color: #fff;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: #2746a8;
+  }
+  .links {
+    margin-top: 10px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .links a {
+    color: #3056d3;
+    text-decoration: none;
+  }
+{% endblock %}
 
-    .login-box h2 {
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 85%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 6px;
-      border: 1px solid #aaa;
-    }
-
-    button {
-      width: 90%;
-      padding: 10px;
-      background: #28a745;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 12px;
-    }
-
-    button:hover {
-      background: #218838;
-    }
-
-    .msg {
-      color: red;
-      margin-bottom: 10px;
-    }
-
-    a {
-      text-decoration: none;
-      color: #28a745;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="login-box">
-    <h2>Login</h2>
+{% block content %}
+  <div class="auth-card">
+    <h1>Login</h1>
+    <p class="subtitle">Login to save your scores and appear on the leaderboard.</p>
 
     {% if messages %}
-      {% for m in messages %}
-        <p class="msg">{{ m }}</p>
-      {% endfor %}
+      <div class="messages">
+        {% for m in messages %}
+          • {{ m }}<br>
+        {% endfor %}
+      </div>
     {% endif %}
 
     <form method="POST">
       {% csrf_token %}
-      <input type="text" name="username" placeholder="Enter Username" required><br>
-      <input type="password" name="password" placeholder="Enter Password" required><br>
+      <label>Username</label>
+      <input type="text" name="username" required>
 
-      <button type="submit">Login</button>
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <button type="submit" class="btn-primary">Login</button>
     </form>
 
-    <p style="margin-top: 10px;">Don’t have an account? 
-      <a href="/register/">Register</a>
-    </p>
+    <div class="links">
+      <a href="{% url 'register' %}">Create account</a>
+      <a href="{% url 'welcome' %}">Back to Welcome</a>
+    </div>
   </div>
-
-</body>
-</html>
+{% endblock %}

@@ -1,91 +1,154 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>SmartQuiz Result</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { 
-      font-family: 'Poppins', sans-serif; 
-      background: #243B55; 
-      color: white; 
-      text-align: center; 
-      padding: 50px 20px; 
-    }
+{% extends "base.html" %}
 
-    .result-card {
-      background: linear-gradient(135deg, #00C6FF, #243B55);
-      border-radius: 20px;
-      padding: 40px 20px;
-      max-width: 500px;
-      margin: 0 auto;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      transition: transform 0.3s;
-    }
-    .result-card:hover {
-      transform: translateY(-5px);
-    }
+{% block title %}Result | SmartQuiz{% endblock %}
 
-    .score {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 20px 0;
-    }
+{% block extra_css %}
+  body {
+    background: linear-gradient(120deg, #89f7fe, #66a6ff);
+  }
 
-    .message {
-      font-size: 20px;
-      color: #90EE90;
-      margin-top: 15px;
-    }
+  .page-wrapper {
+    opacity: 0;
+    animation: pageFade .7s ease-out forwards;
+  }
+  @keyframes pageFade {
+    from { opacity:0; }
+    to   { opacity:1; }
+  }
 
-    .btn-home {
-      margin-top: 30px;
-      padding: 10px 25px;
-      border-radius: 10px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .btn-home:hover {
-      background-color: #0096FF !important;
-      color: #fff !important;
-    }
-  </style>
-</head>
-<body>
+  .result-page {
+    width:100%;
+    max-width:800px;
+  }
 
-  <div class="result-card text-center">
-    <h1 class="mb-3">🎯 SmartQuiz Result</h1>
-    <h2 id="username" class="mb-2">Hello, Guest!</h2>
-    <p id="subject" class="mb-2">Subject: -</p>
-    <p id="score" class="score">Score: 0 / 5</p>
-    <div class="message" id="msg"></div>
+  .result-card {
+    background:#ffffff;
+    border-radius:30px;
+    padding:26px 26px 24px;
+    box-shadow:0 20px 50px rgba(15,23,42,0.35);
+    opacity:0;
+    animation:fadeUp .7s ease-out forwards;
+    animation-delay:0.1s;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
 
-    <a href="{% url 'home' %}" class="btn btn-primary btn-home">🏠 Back to Home</a>
+  .result-title {
+    font-size:24px;
+    font-weight:800;
+    color:#111827;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:4px;
+  }
+
+  .result-sub {
+    font-size:14px;
+    color:#6b7280;
+  }
+
+  .result-grid {
+    margin-top:16px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:14px;
+  }
+
+  .result-tile {
+    background:#f9fafb;
+    border-radius:18px;
+    border:1px solid #e5e7eb;
+    padding:14px 14px 12px;
+  }
+
+  .result-tile-label {
+    font-size:12px;
+    color:#6b7280;
+  }
+
+  .result-tile-value {
+    font-size:20px;
+    font-weight:800;
+    color:#111827;
+    margin-top:2px;
+  }
+
+  .result-message {
+    margin-top:12px;
+    font-size:14px;
+    color:#4b5563;
+  }
+
+  .result-actions {
+    margin-top:18px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+{% endblock %}
+
+{% block content %}
+  <div class="result-page">
+    <div class="result-card">
+      <div class="result-title">
+        Quiz Result 🎉
+      </div>
+      <div class="result-sub">
+        {% if subject %}Subject: <strong>{{ subject }}</strong> • {% endif %}
+        {% if request.user.is_authenticated %}
+          Player: <strong>{{ request.user.username }}</strong>
+        {% else %}
+          Player: <strong>Guest</strong>
+        {% endif %}
+      </div>
+
+      <div class="result-grid">
+        <div class="result-tile">
+          <div class="result-tile-label">Score</div>
+          <div class="result-tile-value">
+            {{ score|default:"-" }}
+          </div>
+        </div>
+        <div class="result-tile">
+          <div class="result-tile-label">Total Questions</div>
+          <div class="result-tile-value">
+            {{ total_questions|default:"-" }}
+          </div>
+        </div>
+        <div class="result-tile">
+          <div class="result-tile-label">Correct Answers</div>
+          <div class="result-tile-value">
+            {{ correct|default:"-" }}
+          </div>
+        </div>
+      </div>
+
+      <div class="result-message">
+        {% if correct and total_questions %}
+          {% with pct=correct|divisibleby:total_questions %}
+          {% endif %}
+        {% endif %}
+        {% if score %}
+          {% if score|floatformat:0 >= total_questions|floatformat:0|add:"-2" %}
+            🔥 Awesome! You nailed this quiz.
+          {% else %}
+            🌱 Good effort! Try again to improve your score.
+          {% endif %}
+        {% else %}
+          Try another quiz to see detailed stats.
+        {% endif %}
+      </div>
+
+      <div class="result-actions">
+        <a href="{% url 'home' %}" class="btn-primary">⬅ Back to Subjects</a>
+        <a href="{% url 'leaderboard' %}" class="btn-secondary">🏆 View Leaderboard</a>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'profile' %}" class="btn-secondary">📜 My Results</a>
+        {% endif %}
+      </div>
+    </div>
   </div>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-    // Get data from URL like ?score=4&subject=Science
-    const params = new URLSearchParams(window.location.search);
-    const score = params.get('score') || 0;
-    const subject = params.get('subject') || '-';
-    const username = localStorage.getItem('username') || 'Guest';
-
-    // Display on page
-    document.getElementById('username').innerText = "Hello, " + username + "!";
-    document.getElementById('subject').innerText = "Subject: " + subject;
-    document.getElementById('score').innerText = "Score: " + score + " / 5";
-
-    // Motivational message
-    let msg = "";
-    if(score == 5) msg = "🏆 Excellent! You nailed it!";
-    else if(score >= 3) msg = "👏 Good job! Keep practicing!";
-    else msg = "💪 Don't give up! Try again!";
-    document.getElementById('msg').innerText = msg;
-  </script>
-
-</body>
-</html>
+{% endblock %}

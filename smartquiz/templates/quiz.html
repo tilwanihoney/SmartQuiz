@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz | SmartQuiz{% endblock %}
+
+{% block extra_css %}
+  body {
+    background: linear-gradient(120deg, #89f7fe, #66a6ff);
+  }
+
+  .page-wrapper {
+    opacity: 0;
+    animation: pageFade 0.6s ease-out forwards;
+  }
+  @keyframes pageFade {
+    from { opacity:0; }
+    to   { opacity:1; }
+  }
+
+  .quiz-page {
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .quiz-card {
+    background: #ffffff;
+    border-radius: 30px;
+    padding: 26px 24px 22px;
+    box-shadow: 0 20px 50px rgba(15,23,42,0.35);
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out forwards;
+    animation-delay: 0.12s;
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(22px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .quiz-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .quiz-title {
+    font-size:20px;
+    font-weight:700;
+    color:#111827;
+  }
+  .quiz-meta {
+    font-size:12px;
+    color:#6b7280;
+    text-align:right;
+  }
+
+  .quiz-question {
+    font-size:18px;
+    font-weight:600;
+    color:#111827;
+    margin:14px 0 12px;
+  }
+
+  .options-list {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:16px;
+  }
+
+  .option-pill {
+    background:#f9fafb;
+    border-radius:999px;
+    padding:10px 14px;
+    border:1px solid #e5e7eb;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    transition:background .15s, box-shadow .15s, transform .1s, border-color .15s;
+  }
+
+  .option-pill:hover {
+    background:#ffffff;
+    box-shadow:0 10px 26px rgba(15,23,42,0.16);
+    transform:translateY(-2px);
+    border-color:#3b82f6;
+  }
+
+  .option-pill input[type="radio"] {
+    accent-color:#3b82f6;
+    transform:scale(1.1);
+  }
+
+  .option-text {
+    font-size:14px;
+    color:#111827;
+  }
+
+  .quiz-footer {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+  }
+
+  .quiz-progress {
+    font-size:13px;
+    color:#6b7280;
+  }
+
+{% endblock %}
+
+{% block content %}
+  <div class="quiz-page">
+    <div class="quiz-card">
+      <div class="quiz-header">
+        <div>
+          <div class="quiz-title">
+            {{ subject.name|default:"Quiz" }}
+          </div>
+          <div class="quiz-meta">
+            Question {{ current_index|default:1 }} of {{ total_questions|default:1 }}
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        {{ question.text|default:question.question_text }}
+      </div>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <!-- keep a hidden question id if you use it -->
+        {% if question.id %}
+          <input type="hidden" name="question_id" value="{{ question.id }}">
+        {% endif %}
+
+        <div class="options-list">
+          {# adjust "options" loop to match your view #}
+          {% for opt in options %}
+            <label class="option-pill">
+              <input
+                type="radio"
+                name="selected_option"
+                value="{{ opt.id|default:opt }}"
+                required
+              >
+              <span class="option-text">
+                {{ opt.text|default:opt }}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
+
+        <div class="quiz-footer">
+          <div class="quiz-progress">
+            Keep going… you’re doing great! 🚀
+          </div>
+          <button type="submit" class="btn-primary">
+            {% if is_last_question %}
+              Submit Quiz
+            {% else %}
+              Next Question →
+            {% endif %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
