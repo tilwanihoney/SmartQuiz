@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db.models import Count, Max, Avg
+import random
 
 
 from .models import Subject, Question, QuizResult

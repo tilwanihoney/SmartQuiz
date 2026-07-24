@@ -2,8 +2,11 @@ from django.contrib import admin
 from django.urls import path
 from myapp import views
 
+
+from django.urls import path
+from myapp import views
+
 urlpatterns = [
-    path('admin/', admin.site.urls), 
     path('', views.welcome, name='welcome'),
 
     path('home/', views.home, name='home'),
@@ -18,3 +21,13 @@ urlpatterns = [
 
     path('profile/', views.profile, name='profile'),
 ]
+
+
+
+
+
+
+
+
+
+
